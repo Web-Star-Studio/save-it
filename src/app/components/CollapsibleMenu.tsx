@@ -266,7 +266,7 @@ export default function CollapsibleMenu() {
                               transition={{ duration: 0.3, ease: "easeOut" }}
                             >
                               <motion.span
-                                className="text-3xl lg:text-5xl xl:text-6xl font-light text-white leading-none block"
+                                className="text-lg lg:text-xl xl:text-2xl font-light text-white leading-none block"
                                 animate={{
                                   color: hoveredIndex === globalIndex ? "#fbbf24" : "#ffffff"
                                 }}
