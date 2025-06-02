@@ -12,16 +12,18 @@ interface MenuItem {
 export default function CollapsibleMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const menuItems: MenuItem[] = [
-    { name: "About Us", href: "#about", category: "PAGES" },
-    { name: "Our Team", href: "#team", category: "PAGES" },
-    { name: "Certification", href: "#certification", category: "PAGES" },
-    { name: "Tax Consulting", href: "#consulting", category: "SERVICES" },
-    { name: "Advanced Planning", href: "#planning", category: "SERVICES" },
-    { name: "Business Intelligence", href: "#intelligence", category: "SERVICES" },
-    { name: "Contact", href: "#contact", category: "PAGES" },
-    { name: "Resources", href: "#resources", category: "PAGES" },
+    { name: "Sobre Nós", href: "#sobre", category: "PÁGINAS" },
+    { name: "Nossa Equipe", href: "#equipe", category: "PÁGINAS" },
+    { name: "Certificações", href: "#certificacoes", category: "PÁGINAS" },
+    { name: "Auditoria Tributária", href: "#auditoria", category: "SERVIÇOS" },
+    { name: "Planejamento Fiscal", href: "#planejamento", category: "SERVIÇOS" },
+    { name: "Consultoria PIS/COFINS", href: "#piscofins", category: "SERVIÇOS" },
+    { name: "Compliance Fiscal", href: "#compliance", category: "SERVIÇOS" },
+    { name: "Contato", href: "#contato", category: "PÁGINAS" },
+    { name: "Recursos", href: "#recursos", category: "PÁGINAS" },
   ];
 
   const toggleMenu = () => {
@@ -49,6 +51,19 @@ export default function CollapsibleMenu() {
     };
   }, [isMenuOpen]);
 
+  // Scroll detection for header background
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.pageYOffset;
+      setIsScrolled(scrollPosition > 50);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
   const groupedItems = menuItems.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -61,7 +76,11 @@ export default function CollapsibleMenu() {
     <>
       {/* Header with Collapsible Menu Button */}
       <motion.header 
-        className="fixed top-0 w-full z-50 mix-blend-difference"
+        className={`fixed top-0 w-full z-50 py-2 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-slate-900/90 backdrop-blur-md' 
+            : 'bg-transparent'
+        }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -71,15 +90,21 @@ export default function CollapsibleMenu() {
             {/* Logo */}
             <motion.div 
               className="flex items-center z-50"
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              animate={{ opacity: isMenuOpen ? 0 : 1 }}
             >
-              <div className="text-white">
-                <div className="text-2xl font-bold tracking-tight">
-                  <span className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-md mr-2">SAVE</span>
-                  <span className="font-light">Inteligência</span>
-                </div>
-                <div className="text-sm font-light -mt-1 text-gray-300">Tributária</div>
+              <div>
+                <h1 className="text-4xl font-black font-orbitron tracking-widest bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-lg filter"
+                    style={{ 
+                      textShadow: '0 0 20px rgba(251, 191, 36, 0.5), 0 0 40px rgba(251, 191, 36, 0.3)',
+                      filter: 'drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))'
+                    }}>
+                  SAVE
+                </h1>
+                <p className="text-white text-xs font-light tracking-wide mt-0.5 opacity-90">
+                  Inteligência Tributária
+                </p>
               </div>
             </motion.div>
 
@@ -96,7 +121,7 @@ export default function CollapsibleMenu() {
                 animate={isMenuOpen ? "open" : "closed"}
               >
                 <motion.span
-                  className="w-full h-0.5 bg-white origin-left"
+                  className={`w-full h-0.5 origin-left transition-colors duration-300 ${isMenuOpen ? 'bg-amber-400' : 'bg-white'}`}
                   variants={{
                     closed: { rotate: 0, y: 0 },
                     open: { rotate: 45, y: 5 }
@@ -104,7 +129,7 @@ export default function CollapsibleMenu() {
                   transition={{ duration: 0.3 }}
                 />
                 <motion.span
-                  className="w-full h-0.5 bg-white"
+                  className={`w-full h-0.5 transition-colors duration-300 ${isMenuOpen ? 'bg-amber-400' : 'bg-white'}`}
                   variants={{
                     closed: { opacity: 1 },
                     open: { opacity: 0 }
@@ -112,7 +137,7 @@ export default function CollapsibleMenu() {
                   transition={{ duration: 0.3 }}
                 />
                 <motion.span
-                  className="w-full h-0.5 bg-white origin-left"
+                  className={`w-full h-0.5 origin-left transition-colors duration-300 ${isMenuOpen ? 'bg-amber-400' : 'bg-white'}`}
                   variants={{
                     closed: { rotate: 0, y: 0 },
                     open: { rotate: -45, y: -5 }
@@ -123,7 +148,7 @@ export default function CollapsibleMenu() {
 
               {/* Menu Label */}
               <motion.span 
-                className="absolute -bottom-2 text-xs text-white font-light tracking-widest"
+                className={`absolute -bottom-2 text-xs font-light tracking-widest transition-colors duration-300 ${isMenuOpen ? 'text-amber-400' : 'text-white'}`}
                 animate={{ opacity: isMenuOpen ? 0 : 1 }}
                 transition={{ duration: 0.3 }}
               >
@@ -179,7 +204,7 @@ export default function CollapsibleMenu() {
                   >
                     {/* Category Label */}
                     <motion.h3 
-                      className="text-red-500 text-xs font-bold tracking-widest mb-6 uppercase"
+                      className="text-amber-400 text-xs font-bold tracking-widest mb-6 uppercase"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 + categoryIndex * 0.1 }}
@@ -215,7 +240,7 @@ export default function CollapsibleMenu() {
                               <motion.span
                                 className="text-4xl lg:text-6xl xl:text-7xl font-light text-white leading-none block"
                                 animate={{
-                                  color: hoveredIndex === globalIndex ? "#ef4444" : "#ffffff"
+                                  color: hoveredIndex === globalIndex ? "#fbbf24" : "#ffffff"
                                 }}
                                 transition={{ duration: 0.3 }}
                               >
@@ -224,7 +249,7 @@ export default function CollapsibleMenu() {
                               
                               {/* Hover Line */}
                               <motion.div
-                                className="absolute bottom-0 left-0 h-0.5 bg-red-500"
+                                className="absolute bottom-0 left-0 h-0.5 bg-amber-400"
                                 initial={{ width: 0 }}
                                 animate={{ 
                                   width: hoveredIndex === globalIndex ? "100%" : "0%" 
@@ -254,20 +279,20 @@ export default function CollapsibleMenu() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                 >
-                  <h4 className="text-red-500 text-xs font-bold tracking-widest mb-6 uppercase">
-                    Contact
+                  <h4 className="text-amber-400 text-xs font-bold tracking-widest mb-6 uppercase">
+                    Contato
                   </h4>
                   <div className="space-y-4 text-white">
                     <p className="text-sm">
                       <span className="text-gray-400 block">Email</span>
-                      contato@savetributaria.com.br
+                      contato@saveinteligencia.com.br
                     </p>
                     <p className="text-sm">
-                      <span className="text-gray-400 block">Phone</span>
-                      +55 11 9999-9999
+                      <span className="text-gray-400 block">Telefone</span>
+                      +55 11 3000-0000
                     </p>
                     <p className="text-sm">
-                      <span className="text-gray-400 block">Address</span>
+                      <span className="text-gray-400 block">Endereço</span>
                       São Paulo, Brasil
                     </p>
                   </div>
@@ -279,15 +304,15 @@ export default function CollapsibleMenu() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.7, duration: 0.5 }}
                 >
-                  <h4 className="text-red-500 text-xs font-bold tracking-widest mb-6 uppercase">
-                    Follow Us
+                  <h4 className="text-amber-400 text-xs font-bold tracking-widest mb-6 uppercase">
+                    Siga-nos
                   </h4>
                   <div className="space-y-3">
                     {["LinkedIn", "Instagram", "YouTube"].map((social, index) => (
                       <motion.a
                         key={social}
                         href="#"
-                        className="block text-white text-sm hover:text-red-500 transition-colors duration-300"
+                        className="block text-white text-sm hover:text-amber-400 transition-colors duration-300"
                         whileHover={{ x: 10 }}
                         transition={{ duration: 0.3 }}
                       >
@@ -304,11 +329,11 @@ export default function CollapsibleMenu() {
                   transition={{ delay: 0.9, duration: 0.5 }}
                 >
                   <motion.button
-                    className="w-full bg-red-500 text-white py-4 px-6 text-sm font-medium tracking-wide hover:bg-red-600 transition-colors duration-300"
+                    className="w-full bg-gradient-to-r from-amber-400 to-yellow-500 text-black py-4 px-6 text-sm font-medium tracking-wide hover:from-amber-500 hover:to-yellow-600 transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    GET STARTED
+                    FALE CONOSCO
                   </motion.button>
                 </motion.div>
               </motion.div>
@@ -321,7 +346,7 @@ export default function CollapsibleMenu() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
             >
-              PRESS ESC TO CLOSE
+              PRESSIONE ESC PARA FECHAR
             </motion.div>
           </motion.div>
         )}
