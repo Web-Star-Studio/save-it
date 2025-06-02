@@ -15,6 +15,7 @@ export default function CollapsibleMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
 
   const menuItems: MenuItem[] = [
     { name: "Início", href: "#inicio", category: "NAVEGAÇÃO" },
@@ -87,6 +88,19 @@ export default function CollapsibleMenu() {
     }
   }, []);
 
+  // Screen size detection
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024);
+    };
+
+    if (typeof window !== 'undefined') {
+      checkScreenSize();
+      window.addEventListener('resize', checkScreenSize);
+      return () => window.removeEventListener('resize', checkScreenSize);
+    }
+  }, []);
+
   const groupedItems = menuItems.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -140,40 +154,41 @@ export default function CollapsibleMenu() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               animate={{ 
-                x: isMenuOpen ? -190 : 0 // Move 160px para a esquerda quando aberto
+                x: isMenuOpen && isLargeScreen ? -190 : 0 // Move para esquerda apenas em telas grandes
               }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               {/* Animated Menu Icon */}
-              <motion.div
-                className="relative w-8 h-6 flex flex-col justify-between"
-                animate={isMenuOpen ? "open" : "closed"}
-              >
-                <motion.span
-                  className={`w-full h-0.5 origin-left transition-colors duration-300 ${isMenuOpen ? 'bg-amber-400' : 'bg-white'}`}
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 5 }
-                  }}
+              {isMenuOpen ? (
+                // X Icon when menu is open
+                <motion.div
+                  className="relative w-8 h-8 flex items-center justify-center"
+                  initial={{ opacity: 0, rotate: -90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
                   transition={{ duration: 0.3 }}
-                />
-                <motion.span
-                  className={`w-full h-0.5 transition-colors duration-300 ${isMenuOpen ? 'bg-amber-400' : 'bg-white'}`}
-                  variants={{
-                    closed: { opacity: 1 },
-                    open: { opacity: 0 }
-                  }}
+                >
+                  <motion.span
+                    className="absolute w-6 h-0.5 bg-amber-400"
+                    style={{ transform: 'rotate(45deg)' }}
+                  />
+                  <motion.span
+                    className="absolute w-6 h-0.5 bg-amber-400"
+                    style={{ transform: 'rotate(-45deg)' }}
+                  />
+                </motion.div>
+              ) : (
+                // Hamburger Icon when menu is closed
+                <motion.div
+                  className="relative w-8 h-6 flex flex-col justify-between"
+                  initial={{ opacity: 0, rotate: 90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
                   transition={{ duration: 0.3 }}
-                />
-                <motion.span
-                  className={`w-full h-0.5 origin-left transition-colors duration-300 ${isMenuOpen ? 'bg-amber-400' : 'bg-white'}`}
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -5 }
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
+                >
+                  <motion.span className="w-full h-0.5 bg-white" />
+                  <motion.span className="w-full h-0.5 bg-white" />
+                  <motion.span className="w-full h-0.5 bg-white" />
+                </motion.div>
+              )}
 
               {/* Menu Label */}
               <motion.span 

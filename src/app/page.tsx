@@ -2104,14 +2104,72 @@ function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 pt-6 sm:pt-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-4">
             <motion.p 
-              className="text-gray-400 text-xs sm:text-sm font-inter text-center sm:text-left"
+              className="text-gray-400 text-xs sm:text-sm font-inter"
               whileHover={{ color: "#d1d5db" }}
             >
               © 2024 SAVE - Inteligência Tributária. Todos os direitos reservados.
             </motion.p>
-            <div className="flex space-x-4 sm:space-x-6 text-xs sm:text-sm">
+            
+            {/* Web Star Studio Credits - Enhanced */}
+            <motion.div 
+              className="flex items-center gap-3 bg-gradient-to-r from-slate-800/30 to-slate-700/30 border border-slate-700/50 rounded-md px-3 py-2"
+              whileHover={{ 
+                scale: 1.02,
+                borderColor: "#fbbf24",
+                backgroundColor: "rgba(30, 41, 59, 0.4)"
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div 
+                className="flex items-center gap-2 text-gray-400"
+                whileHover={{ color: "#d1d5db" }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.svg 
+                  className="w-3 h-3 text-amber-400" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  whileHover={{ rotate: 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </motion.svg>
+                <span className="text-xs font-inter">Desenvolvido por</span>
+              </motion.div>
+              
+              <motion.a 
+                href="https://www.webstar.studio" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-amber-400 hover:text-amber-300 font-semibold text-sm font-inter transition-colors flex items-center gap-1"
+                whileHover={{ 
+                  scale: 1.05
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <motion.span
+                  whileHover={{ x: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  Web Star Studio
+                </motion.span>
+                <motion.svg 
+                  className="w-3 h-3" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  whileHover={{ x: 2, y: -1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </motion.svg>
+              </motion.a>
+            </motion.div>
+            
+            <div className="flex space-x-4 sm:space-x-6 text-xs sm:text-sm order-first sm:order-last">
               <motion.a 
                 href="#" 
                 className="text-gray-400 hover:text-amber-400 transition-colors font-inter"
