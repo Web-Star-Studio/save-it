@@ -2,6 +2,8 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface MenuItem {
   name: string;
@@ -15,19 +17,40 @@ export default function CollapsibleMenu() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const menuItems: MenuItem[] = [
-    { name: "Sobre Nós", href: "#sobre", category: "PÁGINAS" },
-    { name: "Nossa Equipe", href: "#equipe", category: "PÁGINAS" },
-    { name: "Certificações", href: "#certificacoes", category: "PÁGINAS" },
-    { name: "Auditoria Tributária", href: "#auditoria", category: "SERVIÇOS" },
-    { name: "Planejamento Fiscal", href: "#planejamento", category: "SERVIÇOS" },
-    { name: "Consultoria PIS/COFINS", href: "#piscofins", category: "SERVIÇOS" },
-    { name: "Compliance Fiscal", href: "#compliance", category: "SERVIÇOS" },
-    { name: "Contato", href: "#contato", category: "PÁGINAS" },
-    { name: "Recursos", href: "#recursos", category: "PÁGINAS" },
+    { name: "Início", href: "#inicio", category: "NAVEGAÇÃO" },
+    { name: "Problemas", href: "#problemas", category: "NAVEGAÇÃO" },
+    { name: "Soluções", href: "#solucoes", category: "NAVEGAÇÃO" },
+    { name: "Credibilidade", href: "#credibilidade", category: "EMPRESA" },
+    { name: "Nossa Equipe", href: "#equipe", category: "EMPRESA" },
+    { name: "Casos de Sucesso", href: "#casos", category: "EMPRESA" },
+    { name: "Certificações", href: "#certificacoes", category: "EMPRESA" },
+    { name: "Serviços", href: "#servicos", category: "SERVIÇOS" },
+    { name: "Contato", href: "#contato", category: "CONTATO" },
   ];
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLinkClick = (href: string) => {
+    setIsMenuOpen(false);
+    
+    // Scroll suave com offset para compensar o header fixo
+    setTimeout(() => {
+      const targetId = href.replace('#', '');
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        const headerHeight = 80; // Altura do header fixo
+        const elementPosition = targetElement.offsetTop;
+        const offsetPosition = elementPosition - headerHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 300); // Delay para permitir que a animação do menu termine
   };
 
   // Close menu on escape key
@@ -77,9 +100,11 @@ export default function CollapsibleMenu() {
       {/* Header with Collapsible Menu Button */}
       <motion.header 
         className={`fixed top-0 w-full z-50 py-2 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-slate-900/90 backdrop-blur-md' 
-            : 'bg-transparent'
+          isMenuOpen 
+            ? 'bg-transparent' 
+            : isScrolled 
+              ? 'bg-slate-900/90 backdrop-blur-md' 
+              : 'bg-transparent'
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -94,17 +119,17 @@ export default function CollapsibleMenu() {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               animate={{ opacity: isMenuOpen ? 0 : 1 }}
             >
-              <div>
-                <h1 className="text-4xl font-black font-orbitron tracking-widest bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-lg filter"
-                    style={{ 
-                      textShadow: '0 0 20px rgba(251, 191, 36, 0.5), 0 0 40px rgba(251, 191, 36, 0.3)',
-                      filter: 'drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))'
-                    }}>
-                  SAVE
-                </h1>
-                <p className="text-white text-xs font-light tracking-wide mt-0.5 opacity-90">
-                  Inteligência Tributária
-                </p>
+              <div className="flex items-center gap-4">
+                <Link href="/" className="cursor-pointer">
+                  <Image
+                    src="/logo-full.png"
+                    alt="SAVE - Inteligência Tributária"
+                    width={200}
+                    height={70}
+                    className="h-12 w-auto object-contain"
+                    priority
+                  />
+                </Link>
               </div>
             </motion.div>
 
@@ -220,7 +245,10 @@ export default function CollapsibleMenu() {
                           <motion.a
                             key={item.name}
                             href={item.href}
-                            onClick={toggleMenu}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleLinkClick(item.href);
+                            }}
                             onMouseEnter={() => setHoveredIndex(globalIndex)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             className="block group cursor-pointer"
@@ -238,7 +266,7 @@ export default function CollapsibleMenu() {
                               transition={{ duration: 0.3, ease: "easeOut" }}
                             >
                               <motion.span
-                                className="text-4xl lg:text-6xl xl:text-7xl font-light text-white leading-none block"
+                                className="text-3xl lg:text-5xl xl:text-6xl font-light text-white leading-none block"
                                 animate={{
                                   color: hoveredIndex === globalIndex ? "#fbbf24" : "#ffffff"
                                 }}
@@ -289,11 +317,13 @@ export default function CollapsibleMenu() {
                     </p>
                     <p className="text-sm">
                       <span className="text-gray-400 block">Telefone</span>
-                      +55 11 3000-0000
+                      0800 591 9519
                     </p>
                     <p className="text-sm">
                       <span className="text-gray-400 block">Endereço</span>
-                      São Paulo, Brasil
+                      Benvenutti Business Center<br />
+                      R. 700, 489 - Centro<br />
+                      Balneário Camboriú - SC, 88330-620
                     </p>
                   </div>
                 </motion.div>
@@ -308,17 +338,34 @@ export default function CollapsibleMenu() {
                     Siga-nos
                   </h4>
                   <div className="space-y-3">
-                    {["LinkedIn", "Instagram", "YouTube"].map((social, index) => (
-                      <motion.a
-                        key={social}
-                        href="#"
-                        className="block text-white text-sm hover:text-amber-400 transition-colors duration-300"
-                        whileHover={{ x: 10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {social}
-                      </motion.a>
-                    ))}
+                    <motion.a
+                      href="https://br.linkedin.com/company/save-inteligencia-tributaria"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-white text-sm hover:text-amber-400 transition-colors duration-300"
+                      whileHover={{ x: 10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      LinkedIn
+                    </motion.a>
+                    <motion.a
+                      href="https://instagram.com/saveinteligenciatributaria"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-white text-sm hover:text-amber-400 transition-colors duration-300"
+                      whileHover={{ x: 10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      Instagram
+                    </motion.a>
+                    <motion.a
+                      href="#"
+                      className="block text-white text-sm hover:text-amber-400 transition-colors duration-300"
+                      whileHover={{ x: 10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      YouTube
+                    </motion.a>
                   </div>
                 </motion.div>
 
