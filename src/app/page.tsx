@@ -1701,42 +1701,42 @@ function ServicesGallerySection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {services.map((service, index) => (
-            <motion.div
+          <motion.div
               key={service.title}
               className="bg-white border border-gray-200 rounded-lg overflow-hidden group cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300"
               initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-              whileHover={{ 
-                scale: 1.02,
+            whileHover={{ 
+              scale: 1.02,
                 boxShadow: "0 15px 30px rgba(0, 0, 0, 0.1)",
-                y: -5
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
+              y: -5
+            }}
+            whileTap={{ scale: 0.98 }}
+          >
               {/* Image Section */}
               <motion.div 
                 className="relative h-48 sm:h-56 overflow-hidden"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.5 }}
               >
-                <Image
+            <Image
                   src={service.image}
                   alt={service.title}
-                  width={800}
+              width={800}
                   height={400}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                
+            />
+            
                 {/* Overlay */}
-                <motion.div
+            <motion.div
                   className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"
                   initial={{ opacity: 0.8 }}
-                  whileHover={{ opacity: 0.9 }}
-                />
+              whileHover={{ opacity: 0.9 }}
+            />
 
                 {/* Category Badge */}
-                <motion.div 
+            <motion.div 
                   className="absolute top-3 sm:top-4 left-3 sm:left-4"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -1747,9 +1747,9 @@ function ServicesGallerySection() {
                     {service.category}
                   </span>
                 </motion.div>
-
+                
                 {/* Title Overlay */}
-                <motion.div 
+              <motion.div
                   className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4"
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -1758,77 +1758,77 @@ function ServicesGallerySection() {
                   <h3 className="text-lg sm:text-xl font-bold text-white font-inter leading-tight">
                     {service.title}
                   </h3>
-                </motion.div>
-              </motion.div>
-              
+            </motion.div>
+          </motion.div>
+
               {/* Content Section */}
-              <motion.div 
+              <motion.div
                 className="p-4 sm:p-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
               >
-                <motion.p 
+                    <motion.p 
                   className="text-gray-600 text-sm sm:text-base font-inter leading-relaxed mb-4"
                   whileHover={{ color: "#374151" }}
                   transition={{ duration: 0.3 }}
-                >
-                  {service.description}
-                </motion.p>
+                    >
+                      {service.description}
+                    </motion.p>
 
                 {/* Service Items */}
-                <motion.div 
+                  <motion.div 
                   className="space-y-2"
                   initial={{ opacity: 0 }}
                   animate={isInView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.4, delay: index * 0.1 + 0.7 }}
                 >
                   {service.items.map((item, itemIndex) => (
-                    <motion.div 
+          <motion.div
                       key={item}
                       className="flex items-center text-sm text-gray-500"
                       initial={{ opacity: 0, x: -10 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
                       transition={{ duration: 0.3, delay: index * 0.1 + 0.8 + itemIndex * 0.1 }}
                       whileHover={{ x: 5, color: "#6b7280" }}
-                    >
-                      <motion.div 
+            >
+                <motion.div 
                         className="w-1.5 h-1.5 bg-amber-400 rounded-full mr-2 sm:mr-3"
                         whileHover={{ scale: 1.3 }}
                         transition={{ duration: 0.2 }}
                       />
                       <span className="font-inter">{item}</span>
-                    </motion.div>
-                  ))}
                 </motion.div>
+                  ))}
+          </motion.div>
 
                 {/* Action Button */}
-                <motion.div 
+          <motion.div
                   className="mt-4 sm:mt-6 pt-4 border-t border-gray-100"
                   initial={{ opacity: 0 }}
                   animate={isInView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.4, delay: index * 0.1 + 1 }}
                 >
-                  <motion.div 
+            <motion.div
                     className="inline-flex items-center text-slate-900 font-medium font-inter group-hover:text-amber-600 transition-colors duration-300 text-sm"
                     whileHover={{ x: 3 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                transition={{ duration: 0.2 }}
+              >
                     Saiba mais
-                    <motion.svg 
+                <motion.svg 
                       className="w-4 h-4 ml-2" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
                       whileHover={{ x: 2 }}
                       transition={{ duration: 0.2 }}
-                    >
+                >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </motion.svg>
-                  </motion.div>
-                </motion.div>
+                </motion.svg>
               </motion.div>
             </motion.div>
+          </motion.div>
+        </motion.div>
           ))}
         </div>
       </div>
@@ -1904,10 +1904,10 @@ function FinalCTASection() {
             >
               ANÁLISE GRATUITA AGORA
             </motion.button>
-
+            
             <motion.button 
               className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium text-base sm:text-lg font-inter hover:bg-white hover:text-slate-900 transition-colors"
-              whileHover={{ 
+                whileHover={{ 
                 scale: 1.05,
                 boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)",
                 y: -2
@@ -1935,13 +1935,13 @@ function FinalCTASection() {
               >
                 <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
+                    </svg>
               </motion.div>
               <h3 className="font-semibold text-white mb-1 sm:mb-2 font-inter text-sm sm:text-base">Telefone</h3>
               <p className="text-gray-300 font-inter text-sm sm:text-base">0800 591 9519</p>
             </motion.div>
 
-            <motion.div
+                  <motion.div
               whileHover={{ scale: 1.05, y: -2 }}
               transition={{ duration: 0.2 }}
             >
@@ -1951,8 +1951,8 @@ function FinalCTASection() {
               >
                 <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </motion.div>
+                    </svg>
+                  </motion.div>
               <h3 className="font-semibold text-white mb-1 sm:mb-2 font-inter text-sm sm:text-base">Email</h3>
               <p className="text-gray-300 font-inter text-sm sm:text-base">contato@saveinteligencia.com.br</p>
             </motion.div>

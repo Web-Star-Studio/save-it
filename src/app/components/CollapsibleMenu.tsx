@@ -139,6 +139,10 @@ export default function CollapsibleMenu() {
               className="relative w-16 h-16 flex flex-col justify-center items-center focus:outline-none group z-50"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
+              animate={{ 
+                x: isMenuOpen ? -190 : 0 // Move 160px para a esquerda quando aberto
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               {/* Animated Menu Icon */}
               <motion.div
